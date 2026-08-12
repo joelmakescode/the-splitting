@@ -1,0 +1,8 @@
+name: TheSplitting
+version: '1.0.0'
+main: org.thesplitting.Plugin
+api-version: '1.20'
+author: Joel
+description: Minecraft Plugin for Kingdoms of Skotra
+
+commands:

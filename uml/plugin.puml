@@ -1,0 +1,123 @@
+@startuml
+class JavaPlugin {
+    + onEnable() : void
+    + onDisable() : void
+}
+
+'------------- Relations ---------------'
+
+JavaPlugin <|-- Plugin
+
+Plugin <|-- ServiceRegistry
+ServiceConfig <|-- ServiceRegistry
+
+IFileManager <|-- FileManager
+FileManager <|-- ServiceConfig
+FileManager <|-- PlayerFileManager
+
+IService <|-- PlayerFileManager
+IService <|-- ItemManager
+
+IEntity <|-- PlayerData
+
+PlayerFileManager <|-- PlayerService
+PlayerService <|-- PlayerListener
+PlayerData <|-- PlayerService
+
+IItem <|-- Items
+ItemManager <|-- Items
+ItemManager <|-- PlayerService
+CustomItem <|-- ItemManager
+
+'------------- Relations ---------------'
+
+'------------- Interfaces ---------------'
+
+interface IEntity {
+    + getName() : String
+    + getMaxHealth() : int
+    + setName(String name) : void
+    + setMaxHealth(int maxHealth) : void
+}
+
+interface IFileManager {
+   + folderCreate(Path folderName) : void
+   + jsonFileCreate(Path folderName, String fileName, Object input) : void
+   + jsonFileRead(Path folderName, String fileName, Class<T> clazz) : <T> T
+   + jsonFileWrite(Path folderName, String fileName, Object input) : void
+}
+
+interface IItem {
+    + getItem() : ItemStack
+    + getId() : String
+    + getName() : String
+    + setName(String name) : void
+}
+
+interface IService {
+    + onEnable() : void
+    + onDisable() : void
+}
+
+'------------- Interfaces ---------------'
+
+'------------- Classes ---------------'
+
+class Plugin {}
+
+class ServiceRegistry {
+    + registerAll() : void
+    + enableAll() : void
+    + disableAll() : void
+    + getPlugin() : Plugin
+}
+
+class ServiceConfig {
+    + getServices() : List<Function<ServiceRegistry, IService>>
+}
+
+class FileManager {
+
+}
+
+class ItemManager {
+    + register(Class<? extends IItem> itemClass) : void
+    + Item(String id) : IItem
+}
+
+'------------ Generic Class for every Item ------------'
+class Items {}
+
+class PlayerData {
+    - String name
+    - int level
+    - int maxHealth
+    + getLevel() : int
+    + setLevel(int level) : void
+}
+
+class PlayerFileManager {
+    + createPlayerFile(UUID playerUUID) : void
+    + readPlayerFile(Player player) : PlayerData
+    + writePlayerFile(Player player, Object input)
+}
+
+class PlayerListener {
+
+}
+
+class PlayerService {
+
+}
+
+'------------- Classes ---------------'
+
+'------------- Enums ---------------'
+
+enum CustomItem {
+    + START_BOOK()
+}
+
+'------------- Enums ---------------'
+
+@enduml
