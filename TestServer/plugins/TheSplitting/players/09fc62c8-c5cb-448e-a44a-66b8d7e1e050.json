@@ -1,1 +1,1 @@
-{"name":"J202","maxHealth":4,"level":5}
+{"name":"J202","playerSettings":{"isStarter":0},"playerStats":{"maxHealth":4,"level":1,"inferno":1,"bolt":1,"water_flow":1,"green_flame":1},"playerInventory":{"inventorySlots":["start_sword",null,null,null,"inventory_manager",null,null,null,"start_book"]},"collectableItems":{"items":{}}}
