@@ -4,12 +4,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
-import org.thesplitting.src.item.IItem;
+import org.thesplitting.src.item.CollectableItems.ItemCategories;
+import org.thesplitting.src.item.CollectableItems.ICollectableItem;
 
-public class StartBookItem implements IItem {
+public class StartBookItem implements ICollectableItem  {
     public static final String ID = "start_book";
     public static final String NAME = "Instructions";
     public static final String DISPLAY_NAME = ChatColor.AQUA + NAME;
+    public static final String CATEGORY = ItemCategories.MISCELLANEOUS.toString();
 
     @Override
     public String getId() {
@@ -39,5 +41,15 @@ public class StartBookItem implements IItem {
         }
 
         return book;
+    }
+
+    @Override
+    public String getCategory() {
+        return CATEGORY;
+    }
+
+    @Override
+    public int getDefaultValue() {
+        return 1;
     }
 }

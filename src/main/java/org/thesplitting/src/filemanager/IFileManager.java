@@ -1,7 +1,5 @@
 package org.thesplitting.src.filemanager;
 
-import com.google.gson.JsonObject;
-
 import java.io.IOException;
 import java.nio.file.Path;
 

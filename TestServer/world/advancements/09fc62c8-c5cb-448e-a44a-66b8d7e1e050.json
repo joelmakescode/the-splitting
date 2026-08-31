@@ -1,25 +1,19 @@
 {
   "minecraft:recipes/decorations/crafting_table": {
     "criteria": {
-      "unlock_right_away": "2026-08-26 10:18:35 +0200"
-    },
-    "done": true
-  },
-  "minecraft:adventure/root": {
-    "criteria": {
-      "killed_by_something": "2026-08-26 10:51:45 +0200"
+      "unlock_right_away": "2026-08-31 16:54:15 +0200"
     },
     "done": true
   },
   "minecraft:adventure/adventuring_time": {
     "criteria": {
-      "minecraft:desert": "2026-08-26 10:18:35 +0200"
+      "minecraft:desert": "2026-08-31 16:54:16 +0200"
     },
     "done": false
   },
   "minecraft:recipes/misc/beacon": {
     "criteria": {
-      "has_nether_star": "2026-08-26 10:18:34 +0200"
+      "has_nether_star": "2026-08-31 16:54:15 +0200"
     },
     "done": true
   },

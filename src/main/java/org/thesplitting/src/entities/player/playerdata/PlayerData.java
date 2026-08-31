@@ -1,6 +1,6 @@
 package org.thesplitting.src.entities.player.playerdata;
 
-import org.thesplitting.src.item.CollectableItems;
+import org.thesplitting.src.item.CollectableItems.CollectableItems;
 
 public record PlayerData(String name, PlayerSettings playerSettings, PlayerStats playerStats, PlayerInventory playerInventory, CollectableItems collectableItems) {
 

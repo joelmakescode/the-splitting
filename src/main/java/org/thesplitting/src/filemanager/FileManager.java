@@ -1,6 +1,7 @@
 package org.thesplitting.src.filemanager;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.thesplitting.src.services.IService;
 import org.thesplitting.src.services.ServiceRegistry;
 
@@ -11,7 +12,7 @@ import java.nio.file.Path;
 
 public class FileManager implements IFileManager, IService {
     protected final ServiceRegistry registry;
-    protected static final Gson gson = new Gson();
+    protected static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private final Path folderName;
 
     public FileManager(ServiceRegistry registry, Path folderName) {

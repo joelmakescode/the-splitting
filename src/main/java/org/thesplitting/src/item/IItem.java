@@ -12,7 +12,7 @@ public interface IItem {
 
     /**
      * Returns the name of an item.
-     * @return name of the item
+     * @return name
      */
     String getName();
 
