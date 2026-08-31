@@ -1,0 +1,58 @@
+@startuml
+
+top to bottom direction
+skinparam linetype ortho
+
+class CollectableItemData
+class CollectableItems
+class FileManager
+class FireSword
+class GenericItemGenerator
+interface ICollectableItem << interface >>
+interface IEntity << interface >>
+interface IFileManager << interface >>
+interface IItem << interface >>
+interface IService << interface >>
+class InventoryManagerItem
+entity InventoryService << record >>
+enum ItemCategories << enumeration >>
+entity ItemListener << record >>
+entity ItemListenerManager << record >>
+class ItemManager
+annotation NotNull << annotation >>
+entity PlayerData << record >>
+class PlayerDataNotFoundException
+class PlayerDefaultData
+entity PlayerErrorHandler << record >>
+class PlayerFileManager
+class PlayerFileManagerTest
+entity PlayerInventory << record >>
+entity PlayerListener << record >>
+entity PlayerService << record >>
+class PlayerSettings
+class PlayerStats
+class Plugin
+class ServiceConfig
+class ServiceRegistry
+class ServiceRegistryTest
+class StartBookItem
+class StartSwordItem
+class WorldService
+
+FileManager                  -[#008200,dashed]-^  IFileManager                
+FileManager                  -[#008200,dashed]-^  IService                    
+FireSword                    -[#008200,dashed]-^  ICollectableItem            
+ICollectableItem             -[#008200,plain]-^  IItem                       
+InventoryManagerItem         -[#008200,dashed]-^  IItem                       
+InventoryService             -[#008200,dashed]-^  IService                    
+ItemListener                 -[#008200,dashed]-^  IService                    
+ItemListenerManager          -[#008200,dashed]-^  IService                    
+ItemManager                  -[#008200,dashed]-^  IService                    
+PlayerErrorHandler           -[#008200,dashed]-^  IService                    
+PlayerFileManager            -[#000082,plain]-^  FileManager                 
+PlayerListener               -[#008200,dashed]-^  IService                    
+PlayerService                -[#008200,dashed]-^  IService                    
+StartBookItem                -[#008200,dashed]-^  ICollectableItem            
+StartSwordItem               -[#008200,dashed]-^  ICollectableItem            
+WorldService                 -[#008200,dashed]-^  IService                    
+@enduml
