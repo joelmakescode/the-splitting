@@ -4,7 +4,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.jetbrains.annotations.NotNull;
 import org.thesplitting.src.entities.player.playerdata.PlayerData;
 import org.thesplitting.src.events.item.GenericItemGenerator;
@@ -24,6 +27,14 @@ public record InventoryService(ItemManager itemManager, PlayerService playerServ
     static GenericItemGenerator genericItemGenerator = new GenericItemGenerator();
     private static final Map<UUID, List<List<String>>> playerPageCache = new HashMap<>();
     private final static int PAGE_SIZE = 45;
+    static HashMap<Integer, String> INVENTORY_TILES = new HashMap<>(){
+        {
+            put(0, "MELEE");
+            put(1, "BOW");
+            put(2, "POTION 1");
+            put(3, "POTION 2");
+        }
+    };
 
     @Override
     public void onEnable() {
@@ -57,6 +68,66 @@ public record InventoryService(ItemManager itemManager, PlayerService playerServ
         renderPage(player, pages, currentPage - 1);
     }
 
+    public void openInventorySwitcher(InventoryClickEvent event, Player player) {
+        Inventory inventory = Bukkit.createInventory(null, 27, "Inventory Switcher");
+        PlayerInventory playerInventory = player.getInventory();
+
+        for (int i = 9; i <= 12; i++) {
+            ItemStack currentItem = playerInventory.getItem(i - 9);
+            if (currentItem != null) {
+                inventory.setItem(i, currentItem);
+            }
+
+            inventory.setItem(i, genericItemGenerator.getItem(Material.COOKIE, "Slot: " + (i - 9) + " (Reserved for " + formatWord(i - 9) + ")"));
+        }
+
+        for (int i = 14; i <= 17; i++) {
+            inventory.setItem(i, genericItemGenerator.getItem(Material.BARRIER, "Not allowed"));
+        }
+        inventory.setItem(4, event.getCurrentItem());
+        inventory.setItem(22, genericItemGenerator.getItem(Material.LIGHT_BLUE_STAINED_GLASS_PANE, "Back"));
+        player.openInventory(inventory);
+    }
+
+    public void inventorySwitcherAction(InventoryClickEvent event, Player player) {
+        if (event.getClickedInventory() == null) { return; }
+        if (event.getRawSlot() == 22) {
+            openInventoryManager(player);
+        } else if (event.getRawSlot() >= 9 && event.getRawSlot() <= 12) {
+            int slot = event.getRawSlot() - 9;
+            ItemStack chosenItem = player.getOpenInventory().getItem(4);
+            ItemStack itemToSwitch = player.getInventory().getItem(slot);
+
+            if (!chosenItem.getItemMeta().getLore().contains(INVENTORY_TILES.get(slot))) {
+                player.sendMessage(ChatColor.GOLD + "[The Splitting] " + ChatColor.YELLOW + "Inventory slot is reserved for: " + formatWord(slot));
+                return;
+            }
+
+            if (chosenItem.equals(itemToSwitch)) {
+                openInventoryManager(player);
+                player.sendMessage(ChatColor.GOLD + "[The Splitting] " + ChatColor.YELLOW + "Can't switch to a weapon that is already in use.");
+                return;
+            }
+
+            if (!player.getInventory().contains(chosenItem)) {
+                if (itemToSwitch != null && slot != 4) {
+                    player.getInventory().removeItem(itemToSwitch);
+                }
+                player.getInventory().setItem(slot, chosenItem);
+
+                PlayerData playerData = playerService.loadPlayerFile(player);
+                String itemId = itemManager.resolveId(chosenItem);
+                playerData.playerInventory().setInventorySlot(slot, itemId);
+
+                playerService.updatePlayerFile(player, playerData);
+                openInventoryManager(player);
+                player.sendMessage(ChatColor.GOLD + "[The Splitting] " + ChatColor.GREEN + "Inventory switch successful!");
+            } else {
+                player.sendMessage(ChatColor.GOLD + "[The Splitting] " + ChatColor.RED + "This item is already in your inventory.");
+            }
+        }
+    }
+
     private void renderPage(Player player, List<List<String>> pages, int page) {
         if (pages.isEmpty()) {
             player.sendMessage(ChatColor.GOLD + "[The Splitting] " + ChatColor.RED + "There are no items in your inventory yet.");
@@ -72,9 +143,7 @@ public record InventoryService(ItemManager itemManager, PlayerService playerServ
 
         int slot = 0;
         for (String itemId : items) {
-            IItem item = itemManager.Item(itemId);
-            if (item == null) { continue; }
-            inventory.setItem(slot++, item.getItemStack());
+            inventory.setItem(slot++, itemManager.getItemStack(itemId));
         }
 
         player.openInventory(inventory);
@@ -95,12 +164,13 @@ public record InventoryService(ItemManager itemManager, PlayerService playerServ
         return 1;
     }
 
-
+    /**
+     * Builds every page dedicated to the individual user.
+     * @param playerData
+     * @return Pages
+     */
     private List<List<String>> buildPaginatedItems(@NotNull PlayerData playerData) {
         Map<String, CollectableItemData> collectables = playerData.collectableItems().getCollectableItems();
-        Set<String> equipped = Arrays.stream(playerData.playerInventory().inventorySlots())
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
 
         List<List<String>> pages = new ArrayList<>();
 
@@ -108,7 +178,7 @@ public record InventoryService(ItemManager itemManager, PlayerService playerServ
             List<String> categoryItems = collectables.entrySet().stream()
                     .filter(e -> category.toString().equals(e.getValue().getCategory()))
                     .filter(e -> e.getValue().getPossession() > 0)
-                    .filter(e -> e.getKey() != null && !equipped.contains(e.getKey()))
+                    .filter(e -> e.getKey() != null)
                     .map(Map.Entry::getKey)
                     .sorted()
                     .toList();
@@ -123,5 +193,15 @@ public record InventoryService(ItemManager itemManager, PlayerService playerServ
         }
 
         return pages;
+    }
+
+    /**
+     * Formats the word for the reserved slot.
+     * @param slot
+     * @return formattedWord
+     */
+    private String formatWord(int slot) {
+        String reservedFor = INVENTORY_TILES.get(slot);
+        return Character.toUpperCase(reservedFor.charAt(0)) + reservedFor.substring(1).toLowerCase();
     }
 }

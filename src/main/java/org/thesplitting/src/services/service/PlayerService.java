@@ -55,6 +55,10 @@ public record PlayerService(PlayerFileManager playerFileManager, ItemManager ite
         playerFileManager.writePlayerFile(player, playerData);
     }
 
+    public void updatePlayerFile(Player player, PlayerData playerData) {
+        playerFileManager.writePlayerFile(player, playerData);
+    }
+
     public void setPlayerLevel(Player player, int newLevel) {
         PlayerData playerData = getPlayerData(player);
 
@@ -87,7 +91,7 @@ public record PlayerService(PlayerFileManager playerFileManager, ItemManager ite
             if (key == null || key.isEmpty()) {
                 continue;
             }
-            Objects.requireNonNull(player.getPlayer()).getInventory().setItem(i, itemManager.Item(currentInventorySlots[i]).getItemStack());
+            Objects.requireNonNull(player.getPlayer()).getInventory().setItem(i, itemManager.getItemStack(key));
         }
     }
 }
