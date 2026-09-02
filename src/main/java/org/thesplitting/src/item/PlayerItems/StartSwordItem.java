@@ -18,6 +18,8 @@ public class StartSwordItem implements ICollectableItem {
     public static final String NAME = "Starter Sword";
     public static final String DISPLAY_NAME = ChatColor.DARK_GRAY + NAME;
     public static final String CATEGORY = ItemCategories.WEAPON.toString();
+    public static final String WEAPON_CATEGORY = ItemCategories.MELEE.toString();
+    public static final UUID ATTRIBUTE_MODIFIER_UUID = UUID.randomUUID();
 
     @Override
     public String getId() {
@@ -33,14 +35,14 @@ public class StartSwordItem implements ICollectableItem {
             meta.addAttributeModifier(
                 Attribute.GENERIC_ATTACK_DAMAGE,
                 new AttributeModifier(
-                    UUID.randomUUID(),
+                    ATTRIBUTE_MODIFIER_UUID,
                     "custom_damage",
                     2.0,
                     AttributeModifier.Operation.ADD_NUMBER,
                     EquipmentSlot.HAND
                 )
             );
-            meta.setLore(List.of(CATEGORY));
+            meta.setLore(List.of(CATEGORY, WEAPON_CATEGORY));
         }
 
         itemStack.setItemMeta(meta);

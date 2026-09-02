@@ -7,6 +7,8 @@ import org.bukkit.inventory.meta.BookMeta;
 import org.thesplitting.src.item.CollectableItems.ItemCategories;
 import org.thesplitting.src.item.CollectableItems.ICollectableItem;
 
+import java.util.List;
+
 public class StartBookItem implements ICollectableItem  {
     public static final String ID = "start_book";
     public static final String NAME = "Instructions";
@@ -36,6 +38,8 @@ public class StartBookItem implements ICollectableItem  {
                     "Willkommen auf diesem Server! \n\n",
                     "Dieses Buch dient als einsteigende Einleitung für diesen Server."
             );
+
+            meta.setLore(List.of(CATEGORY));
 
             book.setItemMeta(meta);
         }

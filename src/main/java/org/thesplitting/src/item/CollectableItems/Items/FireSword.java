@@ -12,6 +12,7 @@ public class FireSword implements ICollectableItem {
     public static final String ID = "fire_sword";
     public static final String NAME = "Fire Sword";
     public static final String CATEGORY = ItemCategories.WEAPON.toString();
+    public static final String WEAPON_CATEGORY = ItemCategories.MELEE.toString();
 
     @Override
     public String getId() {
@@ -29,7 +30,7 @@ public class FireSword implements ICollectableItem {
         ItemMeta meta = fireSword.getItemMeta();
 
         meta.setDisplayName(NAME);
-        meta.setLore(List.of(CATEGORY));
+        meta.setLore(List.of(CATEGORY, WEAPON_CATEGORY));
         fireSword.setItemMeta(meta);
 
         return fireSword;

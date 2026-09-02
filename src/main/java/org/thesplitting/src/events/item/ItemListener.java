@@ -41,9 +41,11 @@ public record ItemListener(ServiceRegistry registry, ItemListenerManager itemLis
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (!(event.getWhoClicked() instanceof Player)) { return; }
-        if (!event.getView().getTitle().startsWith(InventoryManagerItem.NAME)) { return; }
+        String eventTitle = event.getView().getTitle();
 
-        itemListenerManager.TakeOverInventoryClickTask(event);
+        if (!(event.getWhoClicked() instanceof Player)) { return; }
+        if (!eventTitle.startsWith(InventoryManagerItem.NAME) && !eventTitle.equals("Inventory Switcher")) { return; }
+
+        itemListenerManager.TakeOverInventoryClickTask(event, eventTitle);
     }
 }
