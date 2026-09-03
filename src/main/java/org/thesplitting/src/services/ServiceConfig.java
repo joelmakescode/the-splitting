@@ -6,6 +6,7 @@ import org.thesplitting.src.events.item.ItemListener;
 import org.thesplitting.src.events.player.PlayerListener;
 import org.thesplitting.src.item.ItemManager;
 import org.thesplitting.src.services.service.InventoryService;
+import org.thesplitting.src.services.service.MessageService;
 import org.thesplitting.src.services.service.PlayerService;
 import org.thesplitting.src.world.WorldService;
 import org.thesplitting.src.filemanager.PlayerFileManager;
@@ -20,6 +21,8 @@ public class ServiceConfig {
                 ItemManager::new,
                 PlayerErrorHandler::new,
                 WorldService::new,
+                MessageService::new,
+
 
                 registry -> new PlayerFileManager(registry, Path.of("players")),
                 registry -> new PlayerService(registry.getService(PlayerFileManager.class), registry.getService(ItemManager.class) , registry.getService(PlayerErrorHandler.class)),
