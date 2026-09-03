@@ -89,13 +89,13 @@ public record InventoryService(ItemManager itemManager, PlayerService playerServ
             ItemStack itemToSwitch = player.getInventory().getItem(slot);
 
             if (!chosenItem.getItemMeta().getLore().contains(INVENTORY_TILES.get(slot))) {
-                player.sendMessage(ChatColor.GOLD + "[The Splitting] " + ChatColor.YELLOW + "Inventory slot is reserved for: " + formatWord(slot));
+                MessageService.warnMessage(player, "Inventory slot is reserved for: " + formatWord(slot));
                 return;
             }
 
             if (chosenItem.equals(itemToSwitch)) {
                 openInventoryManager(player);
-                player.sendMessage(ChatColor.GOLD + "[The Splitting] " + ChatColor.YELLOW + "Can't switch to a weapon that is already in use.");
+                MessageService.warnMessage(player, "Can't switch to a weapon that is already in use.");
                 return;
             }
 
@@ -111,9 +111,9 @@ public record InventoryService(ItemManager itemManager, PlayerService playerServ
 
                 playerService.updatePlayerFile(player, playerData);
                 openInventoryManager(player);
-                player.sendMessage(ChatColor.GOLD + "[The Splitting] " + ChatColor.GREEN + "Item switch successful!");
+                MessageService.successMessage(player, "Item switch successful!");
             } else {
-                player.sendMessage(ChatColor.GOLD + "[The Splitting] " + ChatColor.RED + "This item is already in your inventory.");
+                MessageService.warnMessage(player, "This item is already in your inventory.");
             }
         }
     }
@@ -130,19 +130,19 @@ public record InventoryService(ItemManager itemManager, PlayerService playerServ
 
         if (itemToRemove == null) { return; }
         if (itemToRemove.getItemMeta().getDisplayName().contains("Slot")) {
-            player.sendMessage(ChatColor.GOLD + "[The Splitting] " + ChatColor.YELLOW + "You cannot remove an empty slot.");
+            MessageService.warnMessage(player, "You cannot remove an empty slot.");
             return;
         }
 
         // REFACTOR THIS LATER
         if (event.getClickedInventory().contains(Material.NETHER_STAR)) {
-            player.sendMessage(ChatColor.GOLD + "[The Splitting] " +  ChatColor.RED + "This is not allowed.");
+            MessageService.warnMessage(player, "This is not allowed.");
             return;
         }
 
         PlayerInventory inventory = player.getInventory();
         if (inventory.contains(itemToRemove)) {
-            player.sendMessage(ChatColor.GOLD + "[The Splitting] " + ChatColor.GREEN + "Item successfully removed.");
+            MessageService.successMessage(player, "Item successfully removed!");
             inventory.remove(itemToRemove);
             player.closeInventory();
             playerData.playerInventory().setInventorySlot(event.getRawSlot() % 9, null);
@@ -152,7 +152,7 @@ public record InventoryService(ItemManager itemManager, PlayerService playerServ
 
     private void renderPage(Player player, List<List<String>> pages, int page) {
         if (pages.isEmpty()) {
-            player.sendMessage(ChatColor.GOLD + "[The Splitting] " + ChatColor.RED + "There are no items in your inventory yet.");
+            MessageService.errorMessage(player, "There are no items in your inventory yet.");
             return;
         }
 

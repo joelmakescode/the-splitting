@@ -13,7 +13,7 @@
   },
   "playerInventory": {
     "inventorySlots": [
-      null,
+      "start_sword",
       null,
       null,
       null,
