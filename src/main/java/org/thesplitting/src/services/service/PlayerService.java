@@ -22,13 +22,6 @@ public record PlayerService(PlayerFileManager playerFileManager, ItemManager ite
 
     }
 
-    public void increasePlayerLevel(Player player) {
-        PlayerData playerData = getPlayerData(player);
-
-        playerData.playerStats().setLevel(playerData.playerStats().getLevel() + 1);
-        playerFileManager.writePlayerFile(player, playerData);
-    }
-
     public void initiatePlayerSetup(Player player) {
         PlayerData playerData = getPlayerData(player);
         loadPlayer(playerData, player);
@@ -56,13 +49,6 @@ public record PlayerService(PlayerFileManager playerFileManager, ItemManager ite
     }
 
     public void updatePlayerFile(Player player, PlayerData playerData) {
-        playerFileManager.writePlayerFile(player, playerData);
-    }
-
-    public void setPlayerLevel(Player player, int newLevel) {
-        PlayerData playerData = getPlayerData(player);
-
-        playerData.playerStats().setLevel(newLevel);
         playerFileManager.writePlayerFile(player, playerData);
     }
 

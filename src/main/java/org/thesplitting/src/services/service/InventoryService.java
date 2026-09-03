@@ -68,28 +68,18 @@ public record InventoryService(ItemManager itemManager, PlayerService playerServ
         renderPage(player, pages, currentPage - 1);
     }
 
-    public void openInventorySwitcher(InventoryClickEvent event, Player player) {
-        Inventory inventory = Bukkit.createInventory(null, 27, "Inventory Switcher");
-        PlayerInventory playerInventory = player.getInventory();
-
-        for (int i = 9; i <= 12; i++) {
-            ItemStack currentItem = playerInventory.getItem(i - 9);
-            if (currentItem != null) {
-                inventory.setItem(i, currentItem);
-            }
-
-            inventory.setItem(i, genericItemGenerator.getItem(Material.COOKIE, "Slot: " + (i - 9) + " (Reserved for " + formatWord(i - 9) + ")"));
-        }
-
-        for (int i = 14; i <= 17; i++) {
-            inventory.setItem(i, genericItemGenerator.getItem(Material.BARRIER, "Not allowed"));
-        }
+    public void openItemSwitcher(InventoryClickEvent event, Player player) {
+        Inventory inventory = Bukkit.createInventory(null, 27, "Item Switcher");
         inventory.setItem(4, event.getCurrentItem());
-        inventory.setItem(22, genericItemGenerator.getItem(Material.LIGHT_BLUE_STAINED_GLASS_PANE, "Back"));
-        player.openInventory(inventory);
+        loadIndividualInventory(player, inventory, 9);
     }
 
-    public void inventorySwitcherAction(InventoryClickEvent event, Player player) {
+    public void openItemRemover(Player player) {
+        Inventory inventory = Bukkit.createInventory(null, 18, "Item Remover");
+        loadIndividualInventory(player, inventory, 0);
+    }
+
+    public void itemSwitcherAction(InventoryClickEvent event, Player player) {
         if (event.getClickedInventory() == null) { return; }
         if (event.getRawSlot() == 22) {
             openInventoryManager(player);
@@ -121,10 +111,42 @@ public record InventoryService(ItemManager itemManager, PlayerService playerServ
 
                 playerService.updatePlayerFile(player, playerData);
                 openInventoryManager(player);
-                player.sendMessage(ChatColor.GOLD + "[The Splitting] " + ChatColor.GREEN + "Inventory switch successful!");
+                player.sendMessage(ChatColor.GOLD + "[The Splitting] " + ChatColor.GREEN + "Item switch successful!");
             } else {
                 player.sendMessage(ChatColor.GOLD + "[The Splitting] " + ChatColor.RED + "This item is already in your inventory.");
             }
+        }
+    }
+
+    public void itemRemoverAction(InventoryClickEvent event, Player player) {
+        if (event.getClickedInventory() == null) { return; }
+        ItemStack itemToRemove = event.getCurrentItem();
+        PlayerData playerData = playerService.loadPlayerFile(player);
+
+        if (event.getRawSlot() == 13) {
+            openInventoryManager(player);
+            return;
+        }
+
+        if (itemToRemove == null) { return; }
+        if (itemToRemove.getItemMeta().getDisplayName().contains("Slot")) {
+            player.sendMessage(ChatColor.GOLD + "[The Splitting] " + ChatColor.YELLOW + "You cannot remove an empty slot.");
+            return;
+        }
+
+        // REFACTOR THIS LATER
+        if (event.getClickedInventory().contains(Material.NETHER_STAR)) {
+            player.sendMessage(ChatColor.GOLD + "[The Splitting] " +  ChatColor.RED + "This is not allowed.");
+            return;
+        }
+
+        PlayerInventory inventory = player.getInventory();
+        if (inventory.contains(itemToRemove)) {
+            player.sendMessage(ChatColor.GOLD + "[The Splitting] " + ChatColor.GREEN + "Item successfully removed.");
+            inventory.remove(itemToRemove);
+            player.closeInventory();
+            playerData.playerInventory().setInventorySlot(event.getRawSlot() % 9, null);
+            playerService.updatePlayerFile(player, playerData);
         }
     }
 
@@ -139,6 +161,7 @@ public record InventoryService(ItemManager itemManager, PlayerService playerServ
 
         Inventory inventory = Bukkit.createInventory(null, 54, InventoryManagerItem.NAME + " (Page: " + clampedPage + ")");
         inventory.setItem(45, genericItemGenerator.getItem(Material.LIGHT_BLUE_STAINED_GLASS_PANE, "Back"));
+        inventory.setItem(49, genericItemGenerator.getItem(Material.BARRIER, "Item Remover"));
         inventory.setItem(53, genericItemGenerator.getItem(Material.RED_STAINED_GLASS_PANE, "Next"));
 
         int slot = 0;
@@ -193,6 +216,33 @@ public record InventoryService(ItemManager itemManager, PlayerService playerServ
         }
 
         return pages;
+    }
+
+    /**
+     * Loads the individual inventory based on the action before. (Including Item Switcher; Item Remover;)
+     * @param player
+     * @param inventory
+     * @param startSlot
+     */
+    private void loadIndividualInventory(Player player, Inventory inventory, int startSlot) {
+        PlayerInventory playerInventory = player.getInventory();
+
+        for (int i = startSlot; i <= startSlot + 3; i++) {
+            ItemStack currentItem = playerInventory.getItem(i % 9);
+            if (currentItem != null) {
+                inventory.setItem(i, currentItem);
+                continue;
+            }
+
+            inventory.setItem(i, genericItemGenerator.getItem(Material.COOKIE, "Slot: " + ((i % 9) + 1) + " (Reserved for " + formatWord(i % 9) + ")"));
+        }
+
+        for (int i = startSlot + 5; i <= startSlot + 8; i++) {
+            inventory.setItem(i, genericItemGenerator.getItem(Material.BARRIER, "Not allowed"));
+        }
+
+        inventory.setItem(startSlot + 13, genericItemGenerator.getItem(Material.LIGHT_BLUE_STAINED_GLASS_PANE, "Back"));
+        player.openInventory(inventory);
     }
 
     /**

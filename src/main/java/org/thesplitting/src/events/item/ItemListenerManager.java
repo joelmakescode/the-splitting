@@ -33,13 +33,17 @@ public record ItemListenerManager(InventoryService inventoryService) implements 
         if (eventTitle.startsWith(InventoryManagerItem.NAME)) {
             if (event.getRawSlot() == 53) {
                 inventoryService.nextInventoryPage(player);
+            } else if (event.getRawSlot() == 49) {
+                inventoryService.openItemRemover(player);
             } else if (event.getRawSlot() == 45) {
                 inventoryService.lastInventoryPage(player);
             } else if (event.getClick().isLeftClick() && event.getRawSlot() < 45 && event.getCurrentItem() != null){
-                inventoryService.openInventorySwitcher(event, player);
+                inventoryService.openItemSwitcher(event, player);
             }
-        } else if (eventTitle.equals("Inventory Switcher")) {
-            inventoryService.inventorySwitcherAction(event, player);
+        } else if (eventTitle.equals("Item Switcher")) {
+            inventoryService.itemSwitcherAction(event, player);
+        } else if (eventTitle.equals("Item Remover")) {
+            inventoryService.itemRemoverAction(event, player);
         }
     }
 }
