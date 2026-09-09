@@ -1,164 +1,59 @@
-[12:23:33] [ServerMain/WARN]: [oshi.util.platform.mac.SysctlUtil] Failed sysctl call: hw.cpufrequency, Error code: 2
-[12:23:35] [ServerMain/INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
-[12:23:35] [ServerMain/INFO]: Loaded 1174 recipes
-[12:23:35] [ServerMain/INFO]: Loaded 1271 advancements
-[12:23:35] [Server thread/INFO]: Starting minecraft server version 1.20.4
-[12:23:35] [Server thread/INFO]: Loading properties
-[12:23:35] [Server thread/INFO]: This server is running Paper version git-Paper-499 (MC: 1.20.4) (Implementing API version 1.20.4-R0.1-SNAPSHOT) (Git: 9de3f75 on ver/1.20.4)
-[12:23:36] [Server thread/INFO]: Using 4 threads for Netty based IO
-[12:23:36] [Server thread/INFO]: Server Ping Player Sample Count: 12
-[12:23:36] [Server thread/WARN]: [!] The timings profiler has been enabled but has been scheduled for removal from Paper in the future.
+[09:14:28] [ServerMain/WARN]: [oshi.util.platform.mac.SysctlUtil] Failed sysctl call: hw.cpufrequency, Error code: 2
+[09:14:30] [ServerMain/INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
+[09:14:30] [ServerMain/INFO]: Loaded 1174 recipes
+[09:14:31] [ServerMain/INFO]: Loaded 1271 advancements
+[09:14:31] [Server thread/INFO]: Starting minecraft server version 1.20.4
+[09:14:31] [Server thread/INFO]: Loading properties
+[09:14:31] [Server thread/INFO]: This server is running Paper version git-Paper-499 (MC: 1.20.4) (Implementing API version 1.20.4-R0.1-SNAPSHOT) (Git: 9de3f75 on ver/1.20.4)
+[09:14:31] [Server thread/INFO]: Server Ping Player Sample Count: 12
+[09:14:31] [Server thread/INFO]: Using 4 threads for Netty based IO
+[09:14:31] [Server thread/WARN]: [!] The timings profiler has been enabled but has been scheduled for removal from Paper in the future.
     We recommend installing the spark profiler as a replacement: https://spark.lucko.me/
     For more information please visit: https://github.com/PaperMC/Paper/issues/8948
-[12:23:36] [Server thread/INFO]: [ChunkTaskScheduler] Chunk system is using 1 I/O threads, 2 worker threads, and gen parallelism of 2 threads
-[12:23:36] [Server thread/INFO]: Default game type: CREATIVE
-[12:23:36] [Server thread/INFO]: Generating keypair
-[12:23:36] [Server thread/INFO]: Starting Minecraft server on *:25565
-[12:23:36] [Server thread/INFO]: Using default channel type
-[12:23:36] [Server thread/INFO]: Paper: Using libdeflate (macOS ARM64 / Apple Silicon) compression from Velocity.
-[12:23:36] [Server thread/INFO]: Paper: Using native (macOS ARM64 / Apple Silicon) cipher from Velocity.
-[12:23:36] [Server thread/INFO]: [TheSplitting] Loading server plugin TheSplitting v1.0.0
-[12:23:36] [Server thread/INFO]: Server permissions file permissions.yml is empty, ignoring it
-[12:23:36] [Server thread/INFO]: Preparing level "world"
-[12:23:37] [Server thread/INFO]: Preparing start region for dimension minecraft:overworld
-[12:23:37] [Server thread/INFO]: Time elapsed: 375 ms
-[12:23:37] [Server thread/INFO]: Preparing start region for dimension minecraft:the_nether
-[12:23:37] [Server thread/INFO]: Time elapsed: 42 ms
-[12:23:37] [Server thread/INFO]: Preparing start region for dimension minecraft:the_end
-[12:23:37] [Server thread/INFO]: Time elapsed: 17 ms
-[12:23:37] [Server thread/INFO]: [TheSplitting] Enabling TheSplitting v1.0.0
-[12:23:37] [Server thread/INFO]: [TheSplitting] =================================
-[12:23:37] [Server thread/INFO]: [TheSplitting] The Splitting wird geladen...
-[12:23:37] [Server thread/INFO]: [TheSplitting] =================================
-[12:23:37] [Server thread/INFO]: [TheSplitting] Service started: ItemManager
-[12:23:37] [Server thread/INFO]: [TheSplitting] Service started: PlayerErrorHandler
-[12:23:37] [Server thread/INFO]: [TheSplitting] Loading World...
-[12:23:37] [Server thread/WARN]: [TheSplitting] Deleting old world...
-[12:23:37] [Server thread/INFO]: [TheSplitting] Copy templates...
-[12:23:37] [Server thread/INFO]: [TheSplitting] Load world... world
-[12:23:37] [Server thread/INFO]: [TheSplitting] World loaded...
-[12:23:37] [Server thread/INFO]: [TheSplitting] Service started: WorldService
-[12:23:37] [Server thread/INFO]: [TheSplitting] Service started: MessageService
-[12:23:37] [Server thread/INFO]: [TheSplitting] Service started: PlayerFileManager
-[12:23:37] [Server thread/INFO]: [TheSplitting] Service started: PlayerService
-[12:23:37] [Server thread/INFO]: [TheSplitting] Service started: PlayerListener
-[12:23:37] [Server thread/INFO]: [TheSplitting] Service started: InventoryService
-[12:23:37] [Server thread/INFO]: [TheSplitting] Service started: ItemListenerManager
-[12:23:37] [Server thread/INFO]: [TheSplitting] Service started: ItemListener
-[12:23:37] [Server thread/INFO]: [TheSplitting] Plugin erfolgreich aktiviert!
-[12:23:37] [Server thread/INFO]: Running delayed init tasks
-[12:23:37] [Server thread/INFO]: Done (1.714s)! For help, type "help"
-[12:23:37] [Server thread/INFO]: Timings Reset
-[12:23:42] [User Authenticator #0/INFO]: UUID of player J202 is 09fc62c8-c5cb-448e-a44a-66b8d7e1e050
-[12:23:42] [Server thread/INFO]: J202 joined the game
-[12:23:42] [Server thread/INFO]: J202[/127.0.0.1:51001] logged in with entity id 263 at ([world]9.5, 74.0, -9.5)
-[12:28:37] [DimensionDataIO - ./world - 0/ERROR]: Could not save data net.minecraft.world.entity.raid.PersistentRaid@316ec5c0
-java.nio.file.NoSuchFileException: ./world/data/raids.dat
-	at sun.nio.fs.UnixException.translateToIOException(UnixException.java:92) ~[?:?]
-	at sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:106) ~[?:?]
-	at sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:111) ~[?:?]
-	at sun.nio.fs.UnixFileSystemProvider.newByteChannel(UnixFileSystemProvider.java:261) ~[?:?]
-	at java.nio.file.spi.FileSystemProvider.newOutputStream(FileSystemProvider.java:482) ~[?:?]
-	at java.nio.file.Files.newOutputStream(Files.java:228) ~[?:?]
-	at net.minecraft.nbt.NbtIo.writeCompressed(NbtIo.java:140) ~[?:?]
-	at net.minecraft.world.level.saveddata.SavedData.lambda$save$0(SavedData.java:45) ~[?:?]
-	at java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1804) ~[?:?]
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144) ~[?:?]
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642) ~[?:?]
-	at java.lang.Thread.run(Thread.java:1583) ~[?:?]
-[12:28:37] [DimensionDataIO - ./world - 0/ERROR]: Could not save data net.minecraft.world.RandomSequences@1991c507
-java.nio.file.NoSuchFileException: ./world/data/random_sequences.dat
-	at sun.nio.fs.UnixException.translateToIOException(UnixException.java:92) ~[?:?]
-	at sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:106) ~[?:?]
-	at sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:111) ~[?:?]
-	at sun.nio.fs.UnixFileSystemProvider.newByteChannel(UnixFileSystemProvider.java:261) ~[?:?]
-	at java.nio.file.spi.FileSystemProvider.newOutputStream(FileSystemProvider.java:482) ~[?:?]
-	at java.nio.file.Files.newOutputStream(Files.java:228) ~[?:?]
-	at net.minecraft.nbt.NbtIo.writeCompressed(NbtIo.java:140) ~[?:?]
-	at net.minecraft.world.level.saveddata.SavedData.lambda$save$0(SavedData.java:45) ~[?:?]
-	at java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1804) ~[?:?]
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144) ~[?:?]
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642) ~[?:?]
-	at java.lang.Thread.run(Thread.java:1583) ~[?:?]
-[12:28:42] [Server thread/WARN]: Failed to save player data for J202
-java.nio.file.NoSuchFileException: ./world/playerdata/09fc62c8-c5cb-448e-a44a-66b8d7e1e050-1350637076027536294.dat
-	at sun.nio.fs.UnixException.translateToIOException(UnixException.java:92) ~[?:?]
-	at sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:106) ~[?:?]
-	at sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:111) ~[?:?]
-	at sun.nio.fs.UnixFileSystemProvider.newByteChannel(UnixFileSystemProvider.java:261) ~[?:?]
-	at java.nio.file.Files.newByteChannel(Files.java:380) ~[?:?]
-	at java.nio.file.Files.createFile(Files.java:658) ~[?:?]
-	at java.nio.file.TempFileHelper.create(TempFileHelper.java:136) ~[?:?]
-	at java.nio.file.TempFileHelper.createTempFile(TempFileHelper.java:159) ~[?:?]
-	at java.nio.file.Files.createTempFile(Files.java:879) ~[?:?]
-	at net.minecraft.world.level.storage.PlayerDataStorage.save(PlayerDataStorage.java:42) ~[?:?]
-	at net.minecraft.server.players.PlayerList.save(PlayerList.java:581) ~[paper-1.20.4.jar:git-Paper-499]
-	at net.minecraft.server.players.PlayerList.lambda$saveAll$2(PlayerList.java:1245) ~[paper-1.20.4.jar:git-Paper-499]
-	at io.papermc.paper.util.MCUtil.ensureMain(MCUtil.java:382) ~[paper-1.20.4.jar:git-Paper-499]
-	at net.minecraft.server.players.PlayerList.saveAll(PlayerList.java:1238) ~[paper-1.20.4.jar:git-Paper-499]
-	at net.minecraft.server.MinecraftServer.tickServer(MinecraftServer.java:1542) ~[paper-1.20.4.jar:git-Paper-499]
-	at net.minecraft.server.MinecraftServer.runServer(MinecraftServer.java:1226) ~[paper-1.20.4.jar:git-Paper-499]
-	at net.minecraft.server.MinecraftServer.lambda$spin$0(MinecraftServer.java:319) ~[paper-1.20.4.jar:git-Paper-499]
-	at java.lang.Thread.run(Thread.java:1583) ~[?:?]
-[12:33:37] [DimensionDataIO - ./world - 0/ERROR]: Could not save data net.minecraft.world.entity.raid.PersistentRaid@316ec5c0
-java.nio.file.NoSuchFileException: ./world/data/raids.dat
-	at sun.nio.fs.UnixException.translateToIOException(UnixException.java:92) ~[?:?]
-	at sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:106) ~[?:?]
-	at sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:111) ~[?:?]
-	at sun.nio.fs.UnixFileSystemProvider.newByteChannel(UnixFileSystemProvider.java:261) ~[?:?]
-	at java.nio.file.spi.FileSystemProvider.newOutputStream(FileSystemProvider.java:482) ~[?:?]
-	at java.nio.file.Files.newOutputStream(Files.java:228) ~[?:?]
-	at net.minecraft.nbt.NbtIo.writeCompressed(NbtIo.java:140) ~[?:?]
-	at net.minecraft.world.level.saveddata.SavedData.lambda$save$0(SavedData.java:45) ~[?:?]
-	at java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1804) ~[?:?]
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144) ~[?:?]
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642) ~[?:?]
-	at java.lang.Thread.run(Thread.java:1583) ~[?:?]
-[12:33:42] [Server thread/WARN]: Failed to save player data for J202
-java.nio.file.NoSuchFileException: ./world/playerdata/09fc62c8-c5cb-448e-a44a-66b8d7e1e050-4937242870866381675.dat
-	at sun.nio.fs.UnixException.translateToIOException(UnixException.java:92) ~[?:?]
-	at sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:106) ~[?:?]
-	at sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:111) ~[?:?]
-	at sun.nio.fs.UnixFileSystemProvider.newByteChannel(UnixFileSystemProvider.java:261) ~[?:?]
-	at java.nio.file.Files.newByteChannel(Files.java:380) ~[?:?]
-	at java.nio.file.Files.createFile(Files.java:658) ~[?:?]
-	at java.nio.file.TempFileHelper.create(TempFileHelper.java:136) ~[?:?]
-	at java.nio.file.TempFileHelper.createTempFile(TempFileHelper.java:159) ~[?:?]
-	at java.nio.file.Files.createTempFile(Files.java:879) ~[?:?]
-	at net.minecraft.world.level.storage.PlayerDataStorage.save(PlayerDataStorage.java:42) ~[?:?]
-	at net.minecraft.server.players.PlayerList.save(PlayerList.java:581) ~[paper-1.20.4.jar:git-Paper-499]
-	at net.minecraft.server.players.PlayerList.lambda$saveAll$2(PlayerList.java:1245) ~[paper-1.20.4.jar:git-Paper-499]
-	at io.papermc.paper.util.MCUtil.ensureMain(MCUtil.java:382) ~[paper-1.20.4.jar:git-Paper-499]
-	at net.minecraft.server.players.PlayerList.saveAll(PlayerList.java:1238) ~[paper-1.20.4.jar:git-Paper-499]
-	at net.minecraft.server.MinecraftServer.tickServer(MinecraftServer.java:1542) ~[paper-1.20.4.jar:git-Paper-499]
-	at net.minecraft.server.MinecraftServer.runServer(MinecraftServer.java:1226) ~[paper-1.20.4.jar:git-Paper-499]
-	at net.minecraft.server.MinecraftServer.lambda$spin$0(MinecraftServer.java:319) ~[paper-1.20.4.jar:git-Paper-499]
-	at java.lang.Thread.run(Thread.java:1583) ~[?:?]
-[12:34:42] [Server thread/INFO]: J202 lost connection: Disconnected
-[12:34:42] [Server thread/WARN]: Failed to save player data for J202
-java.nio.file.NoSuchFileException: ./world/playerdata/09fc62c8-c5cb-448e-a44a-66b8d7e1e050-655761049316803595.dat
-	at sun.nio.fs.UnixException.translateToIOException(UnixException.java:92) ~[?:?]
-	at sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:106) ~[?:?]
-	at sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:111) ~[?:?]
-	at sun.nio.fs.UnixFileSystemProvider.newByteChannel(UnixFileSystemProvider.java:261) ~[?:?]
-	at java.nio.file.Files.newByteChannel(Files.java:380) ~[?:?]
-	at java.nio.file.Files.createFile(Files.java:658) ~[?:?]
-	at java.nio.file.TempFileHelper.create(TempFileHelper.java:136) ~[?:?]
-	at java.nio.file.TempFileHelper.createTempFile(TempFileHelper.java:159) ~[?:?]
-	at java.nio.file.Files.createTempFile(Files.java:879) ~[?:?]
-	at net.minecraft.world.level.storage.PlayerDataStorage.save(PlayerDataStorage.java:42) ~[?:?]
-	at net.minecraft.server.players.PlayerList.save(PlayerList.java:581) ~[paper-1.20.4.jar:git-Paper-499]
-	at net.minecraft.server.players.PlayerList.remove(PlayerList.java:637) ~[paper-1.20.4.jar:git-Paper-499]
-	at net.minecraft.server.players.PlayerList.remove(PlayerList.java:598) ~[paper-1.20.4.jar:git-Paper-499]
-	at net.minecraft.server.network.ServerGamePacketListenerImpl.removePlayerFromWorld(ServerGamePacketListenerImpl.java:2093) ~[?:?]
-	at net.minecraft.server.network.ServerGamePacketListenerImpl.onDisconnect(ServerGamePacketListenerImpl.java:2073) ~[?:?]
-	at net.minecraft.server.network.ServerGamePacketListenerImpl.onDisconnect(ServerGamePacketListenerImpl.java:2060) ~[?:?]
-	at net.minecraft.network.Connection.handleDisconnection(Connection.java:838) ~[?:?]
-	at net.minecraft.server.network.ServerConnectionListener.tick(ServerConnectionListener.java:254) ~[?:?]
-	at net.minecraft.server.MinecraftServer.tickChildren(MinecraftServer.java:1746) ~[paper-1.20.4.jar:git-Paper-499]
-	at net.minecraft.server.dedicated.DedicatedServer.tickChildren(DedicatedServer.java:447) ~[paper-1.20.4.jar:git-Paper-499]
-	at net.minecraft.server.MinecraftServer.tickServer(MinecraftServer.java:1525) ~[paper-1.20.4.jar:git-Paper-499]
-	at net.minecraft.server.MinecraftServer.runServer(MinecraftServer.java:1226) ~[paper-1.20.4.jar:git-Paper-499]
-	at net.minecraft.server.MinecraftServer.lambda$spin$0(MinecraftServer.java:319) ~[paper-1.20.4.jar:git-Paper-499]
-	at java.lang.Thread.run(Thread.java:1583) ~[?:?]
-[12:34:42] [Server thread/INFO]: J202 left the game
+[09:14:31] [Server thread/INFO]: [ChunkTaskScheduler] Chunk system is using 1 I/O threads, 2 worker threads, and gen parallelism of 2 threads
+[09:14:31] [Server thread/INFO]: Default game type: CREATIVE
+[09:14:31] [Server thread/INFO]: Generating keypair
+[09:14:31] [Server thread/INFO]: Starting Minecraft server on *:25565
+[09:14:31] [Server thread/INFO]: Using default channel type
+[09:14:31] [Server thread/INFO]: Paper: Using libdeflate (macOS ARM64 / Apple Silicon) compression from Velocity.
+[09:14:31] [Server thread/INFO]: Paper: Using native (macOS ARM64 / Apple Silicon) cipher from Velocity.
+[09:14:31] [Server thread/INFO]: [TheSplitting] Loading server plugin TheSplitting v1.0.0
+[09:14:31] [Server thread/INFO]: Server permissions file permissions.yml is empty, ignoring it
+[09:14:31] [Server thread/INFO]: Preparing level "world"
+[09:14:32] [Server thread/INFO]: Preparing start region for dimension minecraft:overworld
+[09:14:32] [Server thread/INFO]: Time elapsed: 75 ms
+[09:14:32] [Server thread/INFO]: Preparing start region for dimension minecraft:the_nether
+[09:14:32] [Server thread/INFO]: Time elapsed: 58 ms
+[09:14:32] [Server thread/INFO]: Preparing start region for dimension minecraft:the_end
+[09:14:32] [Server thread/INFO]: Time elapsed: 16 ms
+[09:14:32] [Server thread/INFO]: [TheSplitting] Enabling TheSplitting v1.0.0
+[09:14:32] [Server thread/INFO]: [TheSplitting] =================================
+[09:14:32] [Server thread/INFO]: [TheSplitting] The Splitting wird geladen...
+[09:14:32] [Server thread/INFO]: [TheSplitting] =================================
+[09:14:32] [Server thread/INFO]: [TheSplitting] Service started: ItemService
+[09:14:32] [Server thread/INFO]: [TheSplitting] Service started: PlayerErrorHandler
+[09:14:32] [Server thread/INFO]: [TheSplitting] Loading World...
+[09:14:32] [Server thread/WARN]: [TheSplitting] Deleting old world...
+[09:14:32] [Server thread/INFO]: [TheSplitting] Copy templates...
+[09:14:32] [Server thread/INFO]: [TheSplitting] Load world... world
+[09:14:32] [Server thread/INFO]: [TheSplitting] World loaded...
+[09:14:32] [Server thread/INFO]: [TheSplitting] Service started: WorldService
+[09:14:32] [Server thread/INFO]: [TheSplitting] Service started: MessageService
+[09:14:32] [Server thread/WARN]: [TheSplitting] Could not save offensive-words.txt to plugins/TheSplitting/chat-control/offensive-words.txt because offensive-words.txt already exists.
+[09:14:32] [Server thread/WARN]: [TheSplitting] Could not save unacceptable-words.txt to plugins/TheSplitting/chat-control/unacceptable-words.txt because unacceptable-words.txt already exists.
+[09:14:32] [Server thread/INFO]: [TheSplitting] Service started: ChatControlService
+[09:14:32] [Server thread/INFO]: [TheSplitting] Service started: ChatControlFileService
+[09:14:32] [Server thread/INFO]: [TheSplitting] Service started: PlayerFileService
+[09:14:32] [Server thread/INFO]: [TheSplitting] Service started: PlayerService
+[09:14:32] [Server thread/INFO]: [TheSplitting] Service started: PlayerListener
+[09:14:32] [Server thread/INFO]: [TheSplitting] Service started: InventoryService
+[09:14:32] [Server thread/INFO]: [TheSplitting] Service started: ItemListenerService
+[09:14:32] [Server thread/INFO]: [TheSplitting] Service started: ItemListener
+[09:14:32] [Server thread/INFO]: [TheSplitting] Plugin erfolgreich aktiviert!
+[09:14:32] [Server thread/INFO]: Running delayed init tasks
+[09:14:32] [Server thread/INFO]: Done (1.236s)! For help, type "help"
+[09:14:32] [Server thread/INFO]: Timings Reset
+[09:15:34] [User Authenticator #0/INFO]: UUID of player J202 is 09fc62c8-c5cb-448e-a44a-66b8d7e1e050
+[09:15:34] [Server thread/INFO]: J202 joined the game
+[09:15:34] [Server thread/INFO]: J202[/127.0.0.1:59930] logged in with entity id 254 at ([world]-2.5, 77.0, -5.5)
+[09:15:40] [Async Chat Thread - #1/INFO]: <J202> DUMM [Marked as Offensive]

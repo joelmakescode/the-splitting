@@ -2,7 +2,7 @@ package org.thesplitting.src.misc.errorhandler;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.thesplitting.src.services.IService;
+import org.thesplitting.src.services.contracts.IService;
 import org.thesplitting.src.services.ServiceRegistry;
 
 public record PlayerErrorHandler(ServiceRegistry registry) implements IService {
