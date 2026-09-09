@@ -67,7 +67,7 @@ public class ServiceRegistry {
         throw new IllegalArgumentException("Service not found: " + serviceClass.getSimpleName());
     }
 
-    public Plugin getPlugin() {
+    public JavaPlugin getPlugin() {
         return plugin;
     }
 }

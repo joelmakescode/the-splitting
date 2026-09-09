@@ -1,10 +1,6 @@
 package org.thesplitting.src.services.services.fileservice;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializer;
+import com.google.gson.*;
 import org.thesplitting.src.services.contracts.IService;
 import org.thesplitting.src.services.ServiceRegistry;
 import org.thesplitting.src.services.contracts.IFileService;
@@ -74,15 +70,18 @@ public class FileService implements IFileService, IService {
 
     @Override
     public <T> T jsonFileRead(Path folderName, String fileName, Class<T> clazz) {
-        try {
-            Path jsonFilePath = buildJsonPath(folderName, fileName);
-            String json = Files.readString(jsonFilePath);
+        Path jsonFilePath = buildJsonPath(folderName, fileName);
 
+        if (Files.notExists(jsonFilePath)) {
+            return null;
+        }
+
+        try {
+            String json = Files.readString(jsonFilePath);
             return gson.fromJson(json, clazz);
         } catch (Exception e) {
             logMessage(e);
         }
-
         return null;
     }
 

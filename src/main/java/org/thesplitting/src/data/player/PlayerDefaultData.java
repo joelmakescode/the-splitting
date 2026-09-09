@@ -9,6 +9,8 @@ import org.thesplitting.src.data.item.PlayerItems.StartSwordItem;
 
 import java.util.HashMap;
 
+import static org.thesplitting.src.services.services.itemservice.ItemService.getItems;
+
 public class PlayerDefaultData {
     private PlayerDefaultData() {}
 
@@ -32,11 +34,7 @@ public class PlayerDefaultData {
 
     private static CollectableItems createDefaultCollectableItems() {
         CollectableItems collectableItems = new CollectableItems(new HashMap<>());
-
-        for (ICollectableItem item : ItemService.getItems()) {
-            collectableItems.addCollectableItem(item);
-        }
-
+        getItems().forEach(collectableItems::addCollectableItem);
         return collectableItems;
     }
 }

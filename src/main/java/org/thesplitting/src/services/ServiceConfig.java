@@ -18,18 +18,16 @@ public class ServiceConfig {
     public static List<Function<ServiceRegistry, IService>> getServices() {
         return List.of(
                 ItemService::new,
-                PlayerErrorHandler::new,
-                WorldService::new,
-                MessageService::new,
+                registry -> new PlayerErrorHandler(registry.getPlugin()),
+                registry -> new WorldService(registry.getPlugin()),
                 ChatControlService::new,
 
                 registry -> new ChatControlFileService(registry, Path.of("chat-control")),
 
                 registry -> new PlayerFileService(registry, Path.of("players")),
-                registry -> new PlayerService(registry.getService(PlayerFileService.class), registry.getService(ItemService.class) , registry.getService(PlayerErrorHandler.class)),
-                registry -> new PlayerListener(registry, registry.getService(PlayerService.class), registry.getService(ChatControlService.class), registry.getService(ChatControlFileService.class)),
-
+                registry -> new PlayerService(registry.getService(PlayerFileService.class), registry.getService(ItemService.class)),
                 registry -> new InventoryService(registry.getService(ItemService.class), registry.getService(PlayerService.class)),
+                registry -> new PlayerListener(registry, registry.getService(PlayerService.class), registry.getService(ChatControlService.class), registry.getService(ChatControlFileService.class), registry.getService(InventoryService.class), registry.getService(PlayerErrorHandler.class)),
 
                 registry -> new ItemListenerService(registry.getService(InventoryService.class)),
                 registry -> new ItemListener(registry, registry.getService(ItemListenerService.class))

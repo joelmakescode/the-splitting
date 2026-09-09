@@ -5,18 +5,8 @@ import org.bukkit.entity.Player;
 import org.thesplitting.src.services.contracts.IService;
 import org.thesplitting.src.services.ServiceRegistry;
 
-public record MessageService(ServiceRegistry registry) implements IService {
+public final class MessageService {
     private static final String TITLE = ChatColor.GOLD + "[The Splitting] ";
-
-    @Override
-    public void onEnable() {
-
-    }
-
-    @Override
-    public void onDisable() {
-
-    }
 
     public static void successMessage(Player player, String message) {
         player.sendMessage(TITLE + ChatColor.GREEN + message);

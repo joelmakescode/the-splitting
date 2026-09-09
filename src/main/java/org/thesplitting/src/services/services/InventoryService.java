@@ -20,11 +20,13 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public record InventoryService(ItemService itemManager, PlayerService playerService) implements IService {
-    static GenericItemGenerator genericItemGenerator = new GenericItemGenerator();
-    private static final Map<UUID, List<List<String>>> playerPageCache = new HashMap<>();
-    private final static int PAGE_SIZE = 45;
-    static HashMap<Integer, String> INVENTORY_TILES = new HashMap<>(){
+public class InventoryService implements IService {
+    private final ItemService itemService;
+    private final PlayerService playerService;
+    private final Map<UUID, List<List<String>>> playerPageCache = new HashMap<>();
+    private final GenericItemGenerator genericItemGenerator = new GenericItemGenerator();
+    private static final int PAGE_SIZE = 45;
+    private static final HashMap<Integer, String> INVENTORY_TILES = new HashMap<>(){
         {
             put(0, "MELEE");
             put(1, "BOW");
@@ -32,6 +34,11 @@ public record InventoryService(ItemService itemManager, PlayerService playerServ
             put(3, "POTION 2");
         }
     };
+
+    public InventoryService(ItemService itemService, PlayerService playerService) {
+        this.itemService = itemService;
+        this.playerService = playerService;
+    }
 
     @Override
     public void onEnable() {
@@ -103,7 +110,7 @@ public record InventoryService(ItemService itemManager, PlayerService playerServ
                 player.getInventory().setItem(slot, chosenItem);
 
                 PlayerData playerData = playerService.loadPlayerFile(player);
-                String itemId = itemManager.resolveId(chosenItem);
+                String itemId = itemService.resolveId(chosenItem);
                 playerData.playerInventory().setInventorySlot(slot, itemId);
 
                 playerService.updatePlayerFile(player, playerData);
@@ -147,6 +154,10 @@ public record InventoryService(ItemService itemManager, PlayerService playerServ
         }
     }
 
+    public void clearPlayerCache(UUID playerUuid) {
+        playerPageCache.remove(playerUuid);
+    }
+
     private void renderPage(Player player, List<List<String>> pages, int page) {
         if (pages.isEmpty()) {
             MessageService.errorMessage(player, "There are no items in your inventory yet.");
@@ -163,7 +174,7 @@ public record InventoryService(ItemService itemManager, PlayerService playerServ
 
         int slot = 0;
         for (String itemId : items) {
-            inventory.setItem(slot++, itemManager.getItemStack(itemId));
+            inventory.setItem(slot++, itemService.getItemStack(itemId));
         }
 
         player.openInventory(inventory);
