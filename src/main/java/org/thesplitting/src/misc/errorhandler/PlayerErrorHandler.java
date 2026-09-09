@@ -2,10 +2,15 @@ package org.thesplitting.src.misc.errorhandler;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.thesplitting.src.services.contracts.IService;
-import org.thesplitting.src.services.ServiceRegistry;
 
-public record PlayerErrorHandler(ServiceRegistry registry) implements IService {
+public class PlayerErrorHandler implements IService {
+    private final JavaPlugin plugin;
+
+    public PlayerErrorHandler(JavaPlugin plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public void onEnable() {
@@ -23,6 +28,6 @@ public record PlayerErrorHandler(ServiceRegistry registry) implements IService {
      */
     public void playerDataNotFoundError(Player player) {
         player.kickPlayer(ChatColor.RED + "Your Player Data could not be loaded. Please try again.");
-        registry.getPlugin().getLogger().warning("Player Data could not be loaded for: " + player.getName());
+        plugin.getLogger().warning("Player Data could not be loaded for: " + player.getName());
     }
 }

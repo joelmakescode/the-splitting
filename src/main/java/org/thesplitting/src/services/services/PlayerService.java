@@ -11,7 +11,7 @@ import org.thesplitting.src.services.services.itemservice.ItemService;
 
 import java.util.Objects;
 
-public record PlayerService(PlayerFileService playerFileManager, ItemService itemManager, PlayerErrorHandler playerErrorHandler) implements IService {
+public record PlayerService(PlayerFileService playerFileManager, ItemService itemManager) implements IService {
     @Override
     public void onEnable() {
 
@@ -23,7 +23,7 @@ public record PlayerService(PlayerFileService playerFileManager, ItemService ite
     }
 
     public void initiatePlayerSetup(Player player) {
-        PlayerData playerData = getPlayerData(player);
+        PlayerData playerData = loadPlayerFile(player);
         loadPlayer(playerData, player);
 
         if (playerData.playerSettings().getIsStarter() == 1) {
@@ -45,22 +45,12 @@ public record PlayerService(PlayerFileService playerFileManager, ItemService ite
     }
 
     public void savePlayerFile(Player player) {
-        PlayerData playerData = getPlayerData(player);
+        PlayerData playerData = loadPlayerFile(player);
         playerFileManager.writePlayerFile(player, playerData);
     }
 
     public void updatePlayerFile(Player player, PlayerData playerData) {
         playerFileManager.writePlayerFile(player, playerData);
-    }
-
-    private PlayerData getPlayerData(Player player) {
-        PlayerData playerData = playerFileManager.readPlayerFile(player);
-        if (playerData == null) {
-            playerErrorHandler.playerDataNotFoundError(player);
-            loadPlayerFile(player);
-            throw new PlayerDataNotFoundException(player.getName());
-        }
-        return playerData;
     }
 
     private void loadPlayer(PlayerData playerData, Player player) {

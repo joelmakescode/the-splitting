@@ -26,6 +26,12 @@ public class ChatControlFileService extends FileService {
     }
 
     public void writeChatControlData(Player player, MessageData messageData) {
-        super.jsonFileWrite(folderName, player.getUniqueId().toString(), messageData);
+        PlayerChatControlData current = getPlayerChatControlData(player);
+        if (current == null) {
+            current = new PlayerChatControlData(player.getUniqueId(), player.getName());
+        }
+
+        current.flaggedMessages().add(messageData);
+        super.jsonFileWrite(folderName, player.getUniqueId().toString(), current);
     }
 }

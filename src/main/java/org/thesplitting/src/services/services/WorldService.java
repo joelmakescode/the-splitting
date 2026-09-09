@@ -3,27 +3,28 @@ package org.thesplitting.src.services.services;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.thesplitting.Plugin;
 import org.thesplitting.src.services.contracts.IService;
-import org.thesplitting.src.services.ServiceRegistry;
 
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 
 public class WorldService implements IService {
-    private final ServiceRegistry registry;
+    private final JavaPlugin plugin;
 
     private static final String WORLD_NAME = "world";
     private Path templatePath;
     private Path worldPath;
 
-    public WorldService(ServiceRegistry registry) {
-        this.registry = registry;
+    public WorldService(JavaPlugin plugin) {
+        this.plugin = plugin;
     }
 
     @Override
     public void onEnable() {
-        Path pluginFolder = registry.getPlugin().getDataFolder().toPath();
+        Path pluginFolder = plugin.getDataFolder().toPath();
         templatePath = pluginFolder.resolve("templates").resolve(WORLD_NAME);
         worldPath = Bukkit.getWorldContainer().toPath().resolve(WORLD_NAME);
 
@@ -34,11 +35,11 @@ public class WorldService implements IService {
         }
 
         if (!Files.exists(templatePath.resolve("level.dat"))) {
-            registry.getPlugin().getLogger().warning("===========================================");
-            registry.getPlugin().getLogger().warning("KEIN WORLD TEMPLATE GEFUNDEN!");
-            registry.getPlugin().getLogger().warning("Bitte kopiere eine Welt nach:");
-            registry.getPlugin().getLogger().warning(templatePath.toString());
-            registry.getPlugin().getLogger().warning("===========================================");
+            plugin.getLogger().warning("===========================================");
+            plugin.getLogger().warning("KEIN WORLD TEMPLATE GEFUNDEN!");
+            plugin.getLogger().warning("Bitte kopiere eine Welt nach:");
+            plugin.getLogger().warning(templatePath.toString());
+            plugin.getLogger().warning("===========================================");
             return;
         }
 
@@ -57,31 +58,31 @@ public class WorldService implements IService {
     }
 
     private void loadFreshWorld() {
-        registry.getPlugin().getLogger().info("Loading World...");
+        plugin.getLogger().info("Loading World...");
 
         try {
             if (Files.exists(worldPath)) {
-                registry.getPlugin().getLogger().warning("Deleting old world...");
+                plugin.getLogger().warning("Deleting old world...");
                 deleteDirectory(worldPath);
             }
 
-            registry.getPlugin().getLogger().info("Copy templates...");
+            plugin.getLogger().info("Copy templates...");
             copyDirectory(templatePath, worldPath);
 
             Files.deleteIfExists(worldPath.resolve("session.lock"));
             Files.deleteIfExists(worldPath.resolve("uid.dat"));
 
-            registry.getPlugin().getLogger().info("Load world... " + WORLD_NAME);
+            plugin.getLogger().info("Load world... " + WORLD_NAME);
             World world = Bukkit.createWorld(new WorldCreator(WORLD_NAME));
 
             if (world != null) {
                 world.setAutoSave(false);
                 world.setKeepSpawnInMemory(true);
 
-                registry.getPlugin().getLogger().info("World loaded...");
+                plugin.getLogger().info("World loaded...");
             }
         } catch (IOException e) {
-            registry.getPlugin().getLogger().warning("Could not load world!");
+            plugin.getLogger().warning("Could not load world!");
             throw new RuntimeException(e);
         }
     }

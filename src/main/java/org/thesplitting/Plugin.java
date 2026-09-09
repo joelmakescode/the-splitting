@@ -3,14 +3,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.thesplitting.src.services.ServiceRegistry;
 
 public class Plugin extends JavaPlugin {
-    private static Plugin plugin;
     private ServiceRegistry serviceRegistry;
 
     @Override
     public void onEnable() {
-        plugin = this;
-
-        // Plugin-Start-Logik
         getLogger().info("=================================");
         getLogger().info("The Splitting wird geladen...");
         getLogger().info("=================================");
