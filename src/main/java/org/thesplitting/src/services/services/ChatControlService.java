@@ -1,17 +1,23 @@
 package org.thesplitting.src.services.services;
 
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerChatEvent;
+import org.thesplitting.src.data.player.PlayerData;
+import org.thesplitting.src.data.player.PlayerRoles.PlayerRoles;
 import org.thesplitting.src.data.server.chatcontrol.ChatControlLevel;
 import org.thesplitting.src.data.server.chatcontrol.ChatFilterResult;
+import org.thesplitting.src.data.server.chatcontrol.MessageData;
+import org.thesplitting.src.data.server.chatcontrol.PlayerChatControlData;
+import org.thesplitting.src.misc.helper.ToolBox;
 import org.thesplitting.src.services.ServiceRegistry;
 import org.thesplitting.src.services.contracts.IService;
+import org.thesplitting.src.services.services.fileservice.ChatControlFileService;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class ChatControlService implements IService {
@@ -20,11 +26,15 @@ public class ChatControlService implements IService {
     private static final String UNACCEPTABLE_RESOURCE = "chat-control/unacceptable-words.txt";
 
     private final ServiceRegistry registry;
+    private final ChatControlFileService chatControlFileService;
+    private final PlayerService playerService;
     private Set<String> offensiveWords = Set.of();
     private Set<String> unacceptableWords = Set.of();
 
-    public ChatControlService(ServiceRegistry registry) {
+    public ChatControlService(ServiceRegistry registry, ChatControlFileService chatControlFileService, PlayerService playerService) {
         this.registry = registry;
+        this.chatControlFileService = chatControlFileService;
+        this.playerService = playerService;
     }
 
     @Override
@@ -41,7 +51,42 @@ public class ChatControlService implements IService {
 
     }
 
-    public ChatFilterResult evaluate(String message) {
+    public PlayerChatControlData loadChatControlFile(Player player) {
+        PlayerChatControlData playerChatControlData = chatControlFileService.getPlayerChatControlData(player);
+        if (playerChatControlData == null) {
+            chatControlFileService.createPlayerChatControlDataFile(player);
+
+            return loadChatControlFile(player);
+        }
+
+        return playerChatControlData;
+    }
+
+    public void takeOverChatListener(PlayerChatEvent event) {
+        Player player = event.getPlayer();
+        ChatFilterResult result = evaluate(event.getMessage());
+        event.setFormat("%2$s");
+
+        switch (result.level()) {
+            case UNACCEPTABLE -> {
+                event.setCancelled(true);
+                MessageService.errorMessage(player, ChatColor.RED + "This message was blocked.");
+            }
+            case OFFENSIVE -> event.setMessage(
+                    formatChatDisplay(event.getPlayer()) + ChatControlService.highlightWord(event.getMessage(), result.matchedWord())
+                            + " " + ChatColor.YELLOW + "[Marked as Offensive]"
+            );
+            case CLEAN -> event.setMessage(
+                    formatChatDisplay(event.getPlayer()) + event.getMessage()
+            );
+        }
+
+        if (result.level() != ChatControlLevel.CLEAN) {
+            chatControlFileService.writeChatControlData(player, MessageData.create(result.message(), result.level()));
+        }
+    }
+
+    private ChatFilterResult evaluate(String message) {
         String[] tokens = message.toLowerCase(Locale.ROOT).split("[^\\p{L}0-9]+");
 
         for (String token : tokens) {
@@ -57,6 +102,17 @@ public class ChatControlService implements IService {
         }
 
         return new ChatFilterResult(ChatControlLevel.CLEAN, null, message);
+    }
+
+    public static String highlightWord(String message, String word) {
+        return message.replaceAll("(?i)\\b" + Pattern.quote(word) + "\\b", ChatColor.YELLOW + "$0" + ChatColor.RESET);
+    }
+
+    public String formatChatDisplay(Player player) {
+        PlayerData playerData = playerService.loadPlayerFile(player);
+        PlayerRoles role = PlayerRoles.valueOf(playerData.playerRole().getPlayerRole().toUpperCase());
+
+        return ChatColor.AQUA + "[GLOBAL] " +  ChatColor.RESET + role.getColor() + ToolBox.formatEnumToWord(role.name()) + " | " + player.getName() + ": " + ChatColor.RESET;
     }
 
     private Set<String> loadWordList(String fileName) {
@@ -78,9 +134,5 @@ public class ChatControlService implements IService {
         }
 
         return words;
-    }
-
-    public static String highlightWord(String message, String word) {
-        return message.replaceAll("(?i)\\b" + Pattern.quote(word) + "\\b", ChatColor.YELLOW + "$0" + ChatColor.RESET);
     }
 }
