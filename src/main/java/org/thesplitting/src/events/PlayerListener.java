@@ -17,11 +17,12 @@ import org.thesplitting.src.services.services.ChatControlService;
 import org.thesplitting.src.services.services.InventoryService;
 import org.thesplitting.src.services.services.MessageService;
 import org.thesplitting.src.services.services.PlayerService;
+import org.thesplitting.src.services.services.ScoreboardService;
 import org.thesplitting.src.services.contracts.IService;
 import org.thesplitting.src.services.ServiceRegistry;
 import org.thesplitting.src.services.services.fileservice.ChatControlFileService;
 
-public record PlayerListener(ServiceRegistry registry, PlayerService playerService, ChatControlService chatControlService, ChatControlFileService chatControlFileService, InventoryService inventoryService, PlayerErrorHandler playerErrorHandler) implements Listener, IService {
+public record PlayerListener(ServiceRegistry registry, PlayerService playerService, ChatControlService chatControlService, InventoryService inventoryService, ScoreboardService scoreboardService, PlayerErrorHandler playerErrorHandler) implements Listener, IService {
 
     @Override
     public void onEnable() {
@@ -38,7 +39,8 @@ public record PlayerListener(ServiceRegistry registry, PlayerService playerServi
         Player player = e.getPlayer();
         try {
             playerService.initiatePlayerSetup(player);
-            chatControlFileService.createPlayerChatControlDataFile(player);
+            chatControlService.loadChatControlFile(player);
+            scoreboardService.updatePlayerTeam(player);
         } catch (Exception ex) {
             playerErrorHandler.playerDataNotFoundError(player);
             throw new PlayerDataNotFoundException(player.getName());
@@ -81,23 +83,6 @@ public record PlayerListener(ServiceRegistry registry, PlayerService playerServi
 
     @EventHandler
     public void onChatMessage(PlayerChatEvent event) {
-        Player player = event.getPlayer();
-        ChatFilterResult result = chatControlService.evaluate(event.getMessage());
-
-        switch (result.level()) {
-            case UNACCEPTABLE -> {
-                event.setCancelled(true);
-                MessageService.errorMessage(player, ChatColor.RED + "This message was blocked.");
-            }
-            case OFFENSIVE -> event.setMessage(
-                    ChatControlService.highlightWord(event.getMessage(), result.matchedWord())
-                            + " " + ChatColor.YELLOW + "[Marked as Offensive]"
-            );
-            case CLEAN -> {}
-        }
-
-        if (result.level() != ChatControlLevel.CLEAN) {
-            chatControlFileService.writeChatControlData(player, MessageData.create(result.message(), result.level()));
-        }
+        chatControlService.takeOverChatListener(event);
     }
 }

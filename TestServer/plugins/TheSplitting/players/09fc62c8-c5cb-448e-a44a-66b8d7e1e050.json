@@ -1,5 +1,8 @@
 {
   "name": "J202",
+  "playerRole": {
+    "playerRole": "INTELLECTUAL"
+  },
   "playerSettings": {
     "isStarter": 0
   },
@@ -13,7 +16,7 @@
   },
   "playerInventory": {
     "inventorySlots": [
-      null,
+      "start_sword",
       null,
       null,
       null,
