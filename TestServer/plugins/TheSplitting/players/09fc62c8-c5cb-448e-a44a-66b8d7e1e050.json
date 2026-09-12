@@ -1,7 +1,7 @@
 {
   "name": "J202",
   "playerRole": {
-    "playerRole": "INTELLECTUAL"
+    "playerRole": "Novice"
   },
   "playerSettings": {
     "isStarter": 0
@@ -30,7 +30,7 @@
   "collectableItems": {
     "items": {
       "start_sword": {
-        "category": "WEAPON",
+        "category": "MELEE",
         "possession": 1
       },
       "start_book": {
@@ -38,7 +38,7 @@
         "possession": 1
       },
       "fire_sword": {
-        "category": "WEAPON",
+        "category": "MELEE",
         "possession": 0
       }
     }
