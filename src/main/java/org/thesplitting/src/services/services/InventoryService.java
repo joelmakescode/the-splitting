@@ -8,6 +8,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.jetbrains.annotations.NotNull;
+import org.thesplitting.src.data.item.CollectableItems.ItemInventorySlots;
 import org.thesplitting.src.data.player.PlayerData;
 import org.thesplitting.src.data.item.GenericItemGenerator;
 import org.thesplitting.src.data.item.CollectableItems.CollectableItemData;
@@ -26,14 +27,6 @@ public class InventoryService implements IService {
     private final Map<UUID, List<List<String>>> playerPageCache = new HashMap<>();
     private final GenericItemGenerator genericItemGenerator = new GenericItemGenerator();
     private static final int PAGE_SIZE = 45;
-    private static final HashMap<Integer, String> INVENTORY_TILES = new HashMap<>(){
-        {
-            put(0, "MELEE");
-            put(1, "BOW");
-            put(2, "POTION 1");
-            put(3, "POTION 2");
-        }
-    };
 
     public InventoryService(ItemService itemService, PlayerService playerService) {
         this.itemService = itemService;
@@ -91,9 +84,11 @@ public class InventoryService implements IService {
             int slot = event.getRawSlot() - 9;
             ItemStack chosenItem = player.getOpenInventory().getItem(4);
             ItemStack itemToSwitch = player.getInventory().getItem(slot);
+            ItemInventorySlots targetSlot = ItemInventorySlots.fromSlot(slot);
+            if (targetSlot == null) return;
 
-            if (!chosenItem.getItemMeta().getLore().contains(INVENTORY_TILES.get(slot))) {
-                MessageService.warnMessage(player, "Inventory slot is reserved for: " + formatWord(slot));
+            if (itemService.resolveInventorySlots(chosenItem) != targetSlot) {
+                MessageService.warnMessage(player, "Inventory slot is reserved for: " + targetSlot.getLabel());
                 return;
             }
 
@@ -207,7 +202,7 @@ public class InventoryService implements IService {
 
         for (ItemCategories category : ItemCategories.values()) {
             List<String> categoryItems = collectables.entrySet().stream()
-                    .filter(e -> category.toString().equals(e.getValue().getCategory()))
+                    .filter(e -> category == e.getValue().getCategory())
                     .filter(e -> e.getValue().getPossession() > 0)
                     .filter(e -> e.getKey() != null)
                     .map(Map.Entry::getKey)
@@ -242,7 +237,10 @@ public class InventoryService implements IService {
                 continue;
             }
 
-            inventory.setItem(i, genericItemGenerator.getItem(Material.COOKIE, "Slot: " + ((i % 9) + 1) + " (Reserved for " + formatWord(i % 9) + ")"));
+            ItemInventorySlots reservedSlot = ItemInventorySlots.fromSlot(i % 9);
+            String label = reservedSlot == null ? ItemInventorySlots.NONE.getLabel() : reservedSlot.getLabel();
+
+            inventory.setItem(i, genericItemGenerator.getItem(Material.COOKIE, "Slot: " + ((i % 9) + 1) + " (Reserved for " + label + ")"));
         }
 
         for (int i = startSlot + 5; i <= startSlot + 8; i++) {
@@ -251,15 +249,5 @@ public class InventoryService implements IService {
 
         inventory.setItem(startSlot + 13, genericItemGenerator.getItem(Material.LIGHT_BLUE_STAINED_GLASS_PANE, "Back"));
         player.openInventory(inventory);
-    }
-
-    /**
-     * Formats the word for the reserved slot.
-     * @param slot
-     * @return formattedWord
-     */
-    private String formatWord(int slot) {
-        String reservedFor = INVENTORY_TILES.get(slot);
-        return Character.toUpperCase(reservedFor.charAt(0)) + reservedFor.substring(1).toLowerCase();
     }
 }

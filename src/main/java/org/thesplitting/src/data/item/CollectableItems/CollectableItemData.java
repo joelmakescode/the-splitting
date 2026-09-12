@@ -1,15 +1,15 @@
 package org.thesplitting.src.data.item.CollectableItems;
 
 public class CollectableItemData {
-    private final String category;
+    private final ItemCategories category;
     private int possession;
 
-    public CollectableItemData(String category, int possession) {
+    public CollectableItemData(ItemCategories category, int possession) {
         this.category = category;
         this.possession = possession;
     }
 
-    public String getCategory() {
+    public ItemCategories getCategory() {
         return category;
     }
 

@@ -9,16 +9,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.thesplitting.src.data.item.CollectableItems.ItemCategories;
 import org.thesplitting.src.data.contracts.ICollectableItem;
+import org.thesplitting.src.data.item.CollectableItems.ItemInventorySlots;
 
-import java.util.List;
 import java.util.UUID;
 
 public class StartSwordItem implements ICollectableItem {
     public static final String ID = "start_sword";
     public static final String NAME = "Starter Sword";
     public static final String DISPLAY_NAME = ChatColor.DARK_GRAY + NAME;
-    public static final String CATEGORY = ItemCategories.WEAPON.toString();
-    public static final String WEAPON_CATEGORY = ItemCategories.MELEE.toString();
     public static final UUID ATTRIBUTE_MODIFIER_UUID = UUID.randomUUID();
 
     @Override
@@ -42,7 +40,6 @@ public class StartSwordItem implements ICollectableItem {
                     EquipmentSlot.HAND
                 )
             );
-            meta.setLore(List.of(CATEGORY, WEAPON_CATEGORY));
         }
 
         itemStack.setItemMeta(meta);
@@ -60,7 +57,12 @@ public class StartSwordItem implements ICollectableItem {
     }
 
     @Override
-    public String getCategory() {
-        return CATEGORY;
+    public ItemCategories getItemCategory() {
+        return ItemCategories.MELEE;
+    }
+
+    @Override
+    public ItemInventorySlots getInventorySlot() {
+        return ItemInventorySlots.MELEE;
     }
 }

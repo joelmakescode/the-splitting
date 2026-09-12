@@ -19,7 +19,7 @@ public class CollectableItems {
     public void addCollectableItem(@NotNull ICollectableItem collectableItem) {
         Objects.requireNonNull(collectableItem, "collectableItem is null");
 
-        items.put(collectableItem.getId(), new CollectableItemData(collectableItem.getCategory(), collectableItem.getDefaultValue()));
+        items.put(collectableItem.getId(), new CollectableItemData(collectableItem.getItemCategory(), collectableItem.getDefaultValue()));
     }
 
     public Integer getPossession(String itemId) {
